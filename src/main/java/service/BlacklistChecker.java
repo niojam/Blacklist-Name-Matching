@@ -1,5 +1,6 @@
 package service;
 
+import exception.BusinessLogicException;
 import org.apache.commons.codec.EncoderException;
 import service.distancecalculator.DamerauLevenshteinDistanceCalculator;
 import service.distancecalculator.SoundexDistanceCalculator;
@@ -30,6 +31,12 @@ public class BlacklistChecker {
     }
 
     public boolean isNameInBlackList(String name, String blacklistFileName, String noiseWordsFileName) {
+        if (name == null || name.isBlank()
+                || blacklistFileName == null || blacklistFileName.isBlank()
+                || noiseWordsFileName == null || noiseWordsFileName.isBlank()) {
+            throw new IllegalArgumentException();
+        }
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
                 getFileAsIOStream(blacklistFileName), StandardCharsets.UTF_8))) {
 
@@ -44,7 +51,7 @@ public class BlacklistChecker {
                     return true;
             }
         } catch (IOException | URISyntaxException | EncoderException e) {
-            e.printStackTrace();
+            throw new BusinessLogicException("Impossible to validate name");
         }
         return false;
     }

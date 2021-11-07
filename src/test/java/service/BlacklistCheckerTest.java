@@ -1,5 +1,6 @@
 package service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +59,13 @@ class BlacklistCheckerTest {
         assertTrue(blacklistChecker.isNameInBlackList("to a Jo Luis Webb", TEST_BLACKLIST_FILE_NAME, TEST_NOISE_WORDS_FILE_NAME));
         assertTrue(blacklistChecker.isNameInBlackList("I am Georg  Buch", TEST_BLACKLIST_FILE_NAME, TEST_NOISE_WORDS_FILE_NAME));
         assertTrue(blacklistChecker.isNameInBlackList("Mr Niile Armstrong", TEST_BLACKLIST_FILE_NAME, TEST_NOISE_WORDS_FILE_NAME));
+    }
+
+    @Test
+    void isNameInBlackListWrongArguments() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> blacklistChecker.isNameInBlackList("  ", TEST_BLACKLIST_FILE_NAME, TEST_NOISE_WORDS_FILE_NAME));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> blacklistChecker.isNameInBlackList("to a Jo Luis Webb", "  ", TEST_NOISE_WORDS_FILE_NAME));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> blacklistChecker.isNameInBlackList("Mr Niile Armstrong", TEST_BLACKLIST_FILE_NAME, null));
     }
 
 }

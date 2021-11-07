@@ -32,11 +32,7 @@ class DamerauLevenshteinDistanceCalculatorTest {
 
     @Test
     void getDistanceNull() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            damerauLevenshteinDistanceCalculator.getDistance(null, "test");
-        });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            damerauLevenshteinDistanceCalculator.getDistance("test", null);
-        });
+        Assertions.assertThrows(IllegalArgumentException.class, () -> damerauLevenshteinDistanceCalculator.getDistance(null, "test"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> damerauLevenshteinDistanceCalculator.getDistance("test", null));
     }
 }
