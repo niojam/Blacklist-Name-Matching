@@ -1,7 +1,5 @@
 ## Blacklist Name Matching
 
-<hr />
-
 ### Set up
 
 Just import project as gradle project. (Java 11 is required)
