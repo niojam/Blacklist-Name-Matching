@@ -12,7 +12,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static util.Constants.NAME_DELIMITER;
@@ -21,6 +20,9 @@ import static util.FileReaderUtil.getFileAsIOStream;
 import static util.FileReaderUtil.getFileContentAsList;
 
 public class BlacklistChecker {
+
+    public static final int MAX_LEVENSHTEIN_DISTANCE = 3;
+    public static final int MAX_SOUNDEX_DISTANCE = 3;
 
     private final DamerauLevenshteinDistanceCalculator damerauLevenshteinDistanceCalculator;
     private final SoundexDistanceCalculator soundexDistanceCalculator;
@@ -46,8 +48,8 @@ public class BlacklistChecker {
                 String blackListName = Arrays.stream(line.toLowerCase().split(NAME_SPLIT_REGEX))
                         .sorted()
                         .collect(Collectors.joining(NAME_DELIMITER));
-                if (name.equals(blackListName) || (soundexDistanceCalculator.getDistance(blackListName, name) >= 3
-                        && damerauLevenshteinDistanceCalculator.getDistance(blackListName, name) <= 3))
+                if (name.equals(blackListName) || (soundexDistanceCalculator.getDistance(blackListName, name) >= MAX_SOUNDEX_DISTANCE
+                        && damerauLevenshteinDistanceCalculator.getDistance(blackListName, name) <= MAX_LEVENSHTEIN_DISTANCE))
                     return true;
             }
         } catch (IOException | URISyntaxException | EncoderException e) {
